@@ -1,0 +1,78 @@
+{
+  "xsappname": "app-requests-workshop",
+  "tenant-mode": "dedicated",
+  "description": "Security profile of called application",
+  "scopes": [
+    {
+      "name": "uaa.user",
+      "description": "UAA"
+    },
+    {
+      "name": "$XSAPPNAME.create",
+      "description": "create"
+    },
+    {
+      "name": "$XSAPPNAME.selfmanage",
+      "description": "selfmanage"
+    },
+    {
+      "name": "$XSAPPNAME.read",
+      "description": "read"
+    },
+    {
+      "name": "$XSAPPNAME.edit",
+      "description": "edit"
+    },
+    {
+      "name": "$XSAPPNAME.delete",
+      "description": "delete"
+    }
+  ],
+  "role-templates": [
+    {
+      "name": "Token_Exchange",
+      "description": "UAA",
+      "scope-references": [
+        "uaa.user"
+      ]
+    },
+    {
+      "name": "SelfService",
+      "scope-references": [
+        "$XSAPPNAME.selfmanage",
+        "$XSAPPNAME.create"
+      ]
+    },
+    {
+      "name": "Processor",
+      "scope-references": [
+        "$XSAPPNAME.read",
+        "$XSAPPNAME.edit"
+      ]
+    },
+    {
+      "name": "Manager",
+      "scope-references": [
+        "$XSAPPNAME.read",
+        "$XSAPPNAME.edit",
+        "$XSAPPNAME.create"
+      ]
+    },
+    {
+      "name": "Admin",
+      "scope-references": [
+        "$XSAPPNAME.delete",
+        "$XSAPPNAME.read",
+        "$XSAPPNAME.edit",
+        "$XSAPPNAME.create"
+      ]
+    }
+    ,
+    {
+      "name": "Audit",
+      "scope-references": [
+        "$XSAPPNAME.read"
+      ]
+    }
+  ]
+}
