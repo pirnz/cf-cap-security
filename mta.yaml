@@ -83,7 +83,7 @@ resources:
 - name: app-requests-workshop-db
   type: com.sap.xs.hdi-container
   parameters:
-    service: hanatrial
+    service: hana
     service-plan: hdi-shared
 - name: app-requests-workshop-destination-service
   type: org.cloudfoundry.managed-service
