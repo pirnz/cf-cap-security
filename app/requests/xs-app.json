@@ -4,7 +4,7 @@
   "routes": [
     {
       "source": "^/api/(.*)$",
-      "target": "/api/$1",
+      "target": "/odata/v4/api/$1",
       "destination": "app-requests-workshop-srv-api",
       "authenticationType": "xsuaa",
       "csrfProtection": false

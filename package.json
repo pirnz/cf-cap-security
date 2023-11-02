@@ -1,94 +1,103 @@
 {
-    "name": "app-requests-workshop",
-    "version": "1.0.0",
-    "description": "A simple CAP project.",
-    "repository": "<Add your repository here>",
-    "license": "UNLICENSED",
-    "private": true,
-    "dependencies": {
-        "@sap/cds": "^6",
-        "@sap/xssec": "^3",
-        "express": "^4",
-        "hdb": "^0.19.0",
-        "passport": "^0"
+  "name": "app-requests-workshop",
+  "version": "1.0.0",
+  "description": "A simple CAP project.",
+  "repository": "<Add your repository here>",
+  "license": "UNLICENSED",
+  "private": true,
+  "dependencies": {
+    "@cap-js/sqlite": "^1.3.1",
+    "@sap/cds": "^7",
+    "@sap/xssec": "^3",
+    "express": "^4",
+    "hdb": "^0.19.0",
+    "passport": "^0"
+  },
+  "devDependencies": {
+    "@cap-js/sqlite": "^1.3.1",
+    "@sap/ux-specification": "^1.102.14",
+    "rimraf": "^3.0.2"
+  },
+  "scripts": {
+    "start": "cds-serve",
+    "watch-unsecured-users": "cds watch --open unsecured-users/webapp/index.html?sap-ui-xx-viewCache=false",
+    "undeploy": "cf undeploy app-requests-workshop --delete-services --delete-service-keys --delete-service-brokers",
+    "build": "rimraf resources mta_archives && mbt build --mtar archive",
+    "deploy": "cf deploy mta_archives/archive.mtar --retries 1",
+    "watch-requests": "cds watch --open requests/webapp/index.html?sap-ui-xx-viewCache=false"
+  },
+  "engines": {
+    "node": "^v18"
+  },
+  "eslintConfig": {
+    "extends": "eslint:recommended",
+    "env": {
+      "es2020": true,
+      "node": true,
+      "jest": true,
+      "mocha": true
     },
-    "devDependencies": {
-        "@sap/ux-specification": "^1.102.14",
-        "rimraf": "^3.0.2",
-        "sqlite3": "^5.0.4"
+    "globals": {
+      "SELECT": true,
+      "INSERT": true,
+      "UPDATE": true,
+      "DELETE": true,
+      "CREATE": true,
+      "DROP": true,
+      "CDL": true,
+      "CQL": true,
+      "CXL": true,
+      "cds": true
     },
-    "scripts": {
-        "start": "cds run",
-        "watch-unsecured-users": "cds watch --open unsecured-users/webapp/index.html?sap-ui-xx-viewCache=false",
-        "undeploy": "cf undeploy app-requests-workshop --delete-services --delete-service-keys --delete-service-brokers",
-        "build": "rimraf resources mta_archives && mbt build --mtar archive",
-        "deploy": "cf deploy mta_archives/archive.mtar --retries 1",
-        "watch-requests": "cds watch --open requests/webapp/index.html?sap-ui-xx-viewCache=false"
-    },
-    "engines": {
-        "node": "^16.15"
-    },
-    "eslintConfig": {
-        "extends": "eslint:recommended",
-        "env": {
-            "es2020": true,
-            "node": true,
-            "jest": true,
-            "mocha": true
+    "rules": {
+      "no-console": "off",
+      "require-atomic-updates": "off"
+    }
+  },
+  "cds": {
+    "requires": {
+      "[development]": {
+        "db": {
+          "kind": "sqlite",
+          "credentials": {
+            "url": "db.sqlite"
+          }, 
+          "impl": "@cap-js/sqlite"
         },
-        "globals": {
-            "SELECT": true,
-            "INSERT": true,
-            "UPDATE": true,
-            "DELETE": true,
-            "CREATE": true,
-            "DROP": true,
-            "CDL": true,
-            "CQL": true,
-            "CXL": true,
-            "cds": true
-        },
-        "rules": {
-            "no-console": "off",
-            "require-atomic-updates": "off"
-        }
-    },
-    "cds": {
-        "requires": {
-            "[development]": {
-                "auth": {
-                    "kind": "basic",
-                    "users": {
-                        "audit": {
-                            "roles": [
-                                "read"
-                            ]
-                        },
-                        "enduser": {
-                            "roles": [
-                                "selfmanage",
-                                "create"
-                            ]
-                        },
-                        "admin": {
-                            "roles": [
-                                "admin"
-                            ]
-                        }
-                      }
-                }
+        "auth": {
+          "kind": "basic",
+          "users": {
+            "audit": {
+              "roles": [
+                "read"
+              ]
             },
-            "[production]": {
-                "db": {
-                    "kind": "hana-cloud"
-                },
-                "auth": {
-                    "kind": "xsuaa"
-                }
+            "enduser": {
+              "roles": [
+                "selfmanage",
+                "create"
+              ]
+            },
+            "admin": {
+              "roles": [
+                "admin"
+              ]
             }
+          }
         }
-    },
-    "sapux": [
-        "app/requests"
-    ]
+      },
+      "[production]": {
+        "db": {
+          "kind": "sqlite", 
+          "impl": "@cap-js/sqlite"
+        },
+        "auth": {
+          "kind": "xsuaa"
+        }
+      }
+    }
+  },
+  "sapux": [
+    "app/requests"
+  ]
 }
