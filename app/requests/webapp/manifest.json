@@ -17,7 +17,7 @@
         },
         "dataSources": {
             "mainService": {
-                "uri": "/api/",
+                "uri": "/odata/v4/api/",
                 "type": "OData",
                 "settings": {
                     "annotations": [
@@ -70,7 +70,7 @@
     "sap.ui5": {
         "flexEnabled": true,
         "dependencies": {
-            "minUI5Version": "1.109.3",
+            "minUI5Version": "1.120.1",
             "libs": {
                 "sap.m": {},
                 "sap.ui.core": {},
@@ -127,6 +127,7 @@
                     "name": "sap.fe.templates.ListReport",
                     "options": {
                         "settings": {
+                            "initialLoad": "Enabled",
                             "entitySet": "Requests",
                             "variantManagement": "Page",
                             "navigation": {

@@ -6,19 +6,19 @@
     "license": "UNLICENSED",
     "private": true,
     "dependencies": {
-        "@sap/cds": "^6",
-        "@sap/xssec": "^3",
-        "express": "^4",
-        "hdb": "^0.19.0",
-        "passport": "^0"
+        "@cap-js/sqlite": "^1.4.0",
+        "@sap/cds": "^7.5.1",
+        "@sap/xssec": "^3.6.1",
+        "express": "^4.18.2",
+        "sqlite3": "^5.1.7"
     },
     "devDependencies": {
-        "@sap/ux-specification": "^1.102.14",
-        "rimraf": "^3.0.2",
-        "sqlite3": "^5.0.4"
+        "@cap-js/sqlite": "^1.4.0",
+        "@sap/ux-specification": "^1.120.1",
+        "rimraf": "^3.0.2"
     },
     "scripts": {
-        "start": "cds run",
+        "start": "cds-serve",
         "watch-unsecured-users": "cds watch --open unsecured-users/webapp/index.html?sap-ui-xx-viewCache=false",
         "undeploy": "cf undeploy app-requests-workshop --delete-services --delete-service-keys --delete-service-brokers",
         "build": "rimraf resources mta_archives && mbt build --mtar archive",
@@ -26,7 +26,7 @@
         "watch-requests": "cds watch --open requests/webapp/index.html?sap-ui-xx-viewCache=false"
     },
     "engines": {
-        "node": "^16.15"
+        "node": "^18"
     },
     "eslintConfig": {
         "extends": "eslint:recommended",
@@ -56,6 +56,10 @@
     "cds": {
         "requires": {
             "[development]": {
+                "db": {
+                    "kind": "sqlite",
+                    "credentials": { "url": "db.sqlite" }
+                },
                 "auth": {
                     "kind": "basic",
                     "users": {
@@ -72,15 +76,19 @@
                         },
                         "admin": {
                             "roles": [
-                                "admin"
+                                "read",
+                                "create",
+                                "edit",
+                                "delete"
                             ]
                         }
-                      }
+                    }
                 }
             },
             "[production]": {
                 "db": {
-                    "kind": "hana-cloud"
+                    "kind": "sqlite",
+                    "credentials": { "url": "db.sqlite" }
                 },
                 "auth": {
                     "kind": "xsuaa"

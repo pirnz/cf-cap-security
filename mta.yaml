@@ -7,7 +7,6 @@ modules:
   type: nodejs
   path: gen/srv
   requires:
-  - name: app-requests-workshop-db
   - name: app-requests-workshop-xsuaa
   provides:
   - name: srv-api
@@ -18,13 +17,6 @@ modules:
     memory: 256M
   build-parameters:
     builder: npm-ci
-- name: app-requests-workshop-db-deployer
-  type: hdb
-  path: gen/db
-  requires:
-  - name: app-requests-workshop-db
-  parameters:
-    buildpack: nodejs_buildpack
 - name: app-requests-workshop-destination-content
   type: com.sap.application.content
   requires:
@@ -80,11 +72,6 @@ modules:
     - npm run build:cf
     supported-platforms: []
 resources:
-- name: app-requests-workshop-db
-  type: com.sap.xs.hdi-container
-  parameters:
-    service: hana
-    service-plan: hdi-shared
 - name: app-requests-workshop-destination-service
   type: org.cloudfoundry.managed-service
   parameters:
@@ -136,3 +123,5 @@ build-parameters:
   - builder: custom
     commands:
     - cds build --production
+    - cds deploy
+    - cp db.sqlite ./gen/srv/db.sqlite

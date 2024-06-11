@@ -3,8 +3,8 @@
   "authenticationMethod": "route",
   "routes": [
     {
-      "source": "^/api/(.*)$",
-      "target": "/api/$1",
+      "source": "^/odata/v4/api/(.*)$",
+      "target": "/odata/v4/api/$1",
       "destination": "app-requests-workshop-srv-api",
       "authenticationType": "xsuaa",
       "csrfProtection": false
